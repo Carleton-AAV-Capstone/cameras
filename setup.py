@@ -1,25 +1,28 @@
 from setuptools import find_packages, setup
+import sysconfig
 
-package_name = 'Cameras'
+package_name = 'cameras'
+
+# Get the Python installation path
+python_version = sysconfig.get_python_version()
 
 setup(
     name=package_name,
-    version='0.0.0',
+    version='0.0.1',
     packages=find_packages(exclude=['test']),
     data_files=[
-        ('share/ament_index/resource_index/packages',
-            ['resource/' + package_name]),
-        ('share/' + package_name, ['package.xml']),
+        # Use dynamic Python version and site-packages path
+        (f'lib/python{python_version}/site-packages/{package_name}', ['cameras/left.ini', 'cameras/right.ini']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='ryandash',
     maintainer_email='ryandash@cmail.carleton.ca',
-    description='TODO: Package description',
-    license='TODO: License declaration',
-    tests_require=['pytest'],
+    description='ROS 2 package for camera feed with calibration info',
+    license='MIT',
     entry_points={
         'console_scripts': [
+            'camera_feeds_with_info = cameras.camera_feeds_with_info:main',
         ],
     },
 )
