@@ -1,33 +1,52 @@
 # Cameras
-Code to publish camera feed to ROS2
+Code to publish camera feeds and camera infos to ROS2
 
-# Setup Instructions
-If using pycharm in linux
-settings -> Project -> interpreter -> select interpreter -> show all -> show interpreter paths
-add the following:
+## Setup Instructions for humble
+```bash
+cd ~
+mkdir ros2_ws
+cd ros2_ws
+mkdir src
+cd src
+git clone https://github.com/ros-perception/image_pipeline.git -b humble
+git clone https://github.com/ptrmu/ros2_shared.git
+git clone https://github.com/Carleton-AAV-Capstone/cameras
+cd ..
+colcon build
+source install/setup.bash
 ```
-/opt/ros/humble/lib/python3.10/site-packages
-/opt/ros/humble/local/lib/python3.10/dist-packages
-```
 
-This will let ros2 packages be understood by python in pycharm
-
-linux ~/.bashrc changes
+## Linux ~/.bashrc changes
 ```bash
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 echo "source ~/ros2_ws/install/setup.bash" >> ~/.bashrc
-echo "export PATH=/usr/local/cuda-11.5/bin:\$PATH" >> ~/.bashrc
-echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.5/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc
-echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH" >> ~/.bashrc
-echo "export LD_LIBRARY_PATH=/opt/ros/humble/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
-echo "export WORKON_HOME=\$HOME/.virtualenvs" >> ~/.bashrc
-echo "export PROJECT_HOME=\$HOME/Devel" >> ~/.bashrc
-echo "export PYTHONPATH=/opt/ros/humble/lib/python3.10/site-packages:\$PYTHONPATH" >> ~/.bashrc
-echo "export AMENT_PREFIX_PATH=/opt/ros/humble:\$AMENT_PREFIX_PATH" >> ~/.bashrc
-echo "export ROS_DOMAIN_ID=0" >> ~/.bashrc
-echo "export ROS_DISTRO=humble" >> ~/.bashrc
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
-
 source ~/.bashrc
 ```
 
+## Executable
+```bash
+ros2 run cameras camera_feeds_with_info
+```
+
+## Calibrating New Cameras
+
+Detailed parameters and tutorial can be found here:
+https://docs.ros.org/en/rolling/p/camera_calibration/doc/index.html
+https://docs.ros.org/en/rolling/p/camera_calibration/doc/tutorial_stereo.html
+
+Note:\
+Current code can be improved to take the entire calibration file but currently it is split into left and right where left.ini is everything after the first but before the second\
+```#oST version 5.0 parameters```
+and right.ini is everything after the second
+
+```bash
+ros2 run camera_calibration cameracalibrator \
+  --size 9x6 \
+  --square 0.04 \
+  --approximate 0.3 \
+  --ros-args \
+  --remap /left:=/left/image_raw \
+  --remap /right:=/right/image_raw
+```
+
+Replace the left.ini and right.ini in cameras folder before colcon build
