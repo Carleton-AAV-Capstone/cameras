@@ -25,7 +25,11 @@ source ~/.bashrc
 
 ## Executable
 ```bash
-ros2 run cameras camera_feeds_with_info
+Check right and left cameras with
+ls /dev/video*
+ffplay /dev/video{#} e.g. /dev/video2
+
+ros2 run cameras camera_feeds_with_info --left_device=/dev/video{#} --right_device=/dev/video{#}
 ```
 
 ## Calibrating New Cameras
@@ -50,3 +54,40 @@ ros2 run camera_calibration cameracalibrator \
 ```
 
 Replace the left.ini and right.ini in cameras folder before colcon build
+
+## Create rectified, disparity, and pointcloud2 for 2 cameras
+```bash
+ros2 launch stereo_image_proc stereo_image_proc.launch.py \
+approximate_sync:=false \
+correlation_window_size:=7 \
+disp12_max_diff:=10 \
+disparity_range:=256 \
+speckle_size:=20 \
+stereo_algorithm:=1
+```
+
+To test outlines
+```bash
+ros2 launch stereo_image_proc stereo_image_proc.launch.py \
+approximate_sync:=true \
+correlation_window_size:=7 \
+disp12_max_diff:=10 \
+disparity_range:=256 \
+min_disparity:=0 \
+speckle_range:=3 \
+speckle_size:=0 \
+stereo_algorithm:=0 \
+texture_threshold:=700 \
+uniqueness_ratio:=0.0
+```
+
+To visualize pointcloud2
+```bash
+ros2 run tf2_ros static_transform_publisher \
+  0 0 4 \
+  0 1.5708 1.5708 \
+  test_frame_id \
+  Test_child_frame_id
+
+rviz2
+```
