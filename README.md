@@ -13,6 +13,8 @@ git clone https://github.com/ptrmu/ros2_shared.git
 git clone https://github.com/Carleton-AAV-Capstone/cameras
 cd ..
 sudo apt-get install ros-humble-camera-info-manager
+sudo apt install ros-humble-stereo-image-proc
+sudo apt-get install ros-humble-image-view
 colcon build --continue-on-error
 source install/setup.bash
 ```
