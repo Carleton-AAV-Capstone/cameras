@@ -12,7 +12,7 @@ git clone https://github.com/ros-perception/image_pipeline.git -b humble
 git clone https://github.com/ptrmu/ros2_shared.git
 git clone https://github.com/Carleton-AAV-Capstone/cameras
 cd ..
-colcon build
+colcon build --packages-select cameras
 source install/setup.bash
 ```
 
