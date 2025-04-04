@@ -46,8 +46,7 @@ and right.ini is everything after the second
 ```bash
 ros2 run camera_calibration cameracalibrator \
   --size 9x6 \
-  --square 0.04 \
-  --approximate 0.3 \
+  --square 0.087 \
   --ros-args \
   --remap /left:=/left/image_raw \
   --remap /right:=/right/image_raw
@@ -61,12 +60,16 @@ ros2 launch stereo_image_proc stereo_image_proc.launch.py \
 approximate_sync:=false \
 correlation_window_size:=7 \
 disp12_max_diff:=10 \
-disparity_range:=256 \
-speckle_size:=20 \
-stereo_algorithm:=1
+disparity_range:=368 \
+min_disparity:=-30 \
+speckle_range:=3 \
+speckle_size:=10 \
+stereo_algorithm:=1 \
+texture_threshold:=10 \
+uniqueness_ratio:=0.0
 ```
 
-To test outlines
+To test outlines of objects
 ```bash
 ros2 launch stereo_image_proc stereo_image_proc.launch.py \
 approximate_sync:=true \
