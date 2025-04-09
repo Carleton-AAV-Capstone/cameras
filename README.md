@@ -6,6 +6,8 @@ Code to publish camera feeds and camera infos to ROS2
 sudo apt install ros-humble-camera-calibration-parsers
 sudo apt install ros-humble-camera-info-manager
 sudo apt install ros-humble-launch-testing-ament-cmake
+sudo apt install ros-humble-stereo-image-proc
+sudo apt install ros-humble-image-view
 cd ~
 mkdir ros2_ws
 cd ros2_ws
@@ -15,9 +17,6 @@ git clone https://github.com/ros-perception/image_pipeline.git -b humble
 git clone https://github.com/ptrmu/ros2_shared.git
 git clone https://github.com/Carleton-AAV-Capstone/cameras
 cd ..
-sudo apt-get install ros-humble-camera-info-manager
-sudo apt install ros-humble-stereo-image-proc
-sudo apt-get install ros-humble-image-view
 colcon build --continue-on-error
 source install/setup.bash
 ```
