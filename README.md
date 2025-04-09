@@ -3,6 +3,9 @@ Code to publish camera feeds and camera infos to ROS2
 
 ## Setup Instructions for humble
 ```bash
+sudo apt install ros-humble-camera-calibration-parsers
+sudo apt install ros-humble-camera-info-manager
+sudo apt install ros-humble-launch-testing-ament-cmake
 cd ~
 mkdir ros2_ws
 cd ros2_ws
